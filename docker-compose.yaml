@@ -1,0 +1,12 @@
+services:
+  mz-mock:
+    build: ./backend
+    init: true
+    ports:
+      - 6875:6875
+    healthcheck: {test: curl -f localhost:6875, interval: 1s, start_period: 30s}
+  frontend:
+    build: ./frontend
+    ports:
+      - 8080:80
+    healthcheck: {test: curl -f localhost:8080, interval: 1s, start_period: 30s}
