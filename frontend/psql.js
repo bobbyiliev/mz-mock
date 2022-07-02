@@ -3,11 +3,11 @@ log("Type 'show help;' for a list of commands.");
 
 // Help command
 register_cmd("show help;", function(cmd) {
-    block_log("Available commands:");
-    log("  show help; - Show this help message");
-    log("  show docs; - Open the Materialize documentation");
-    log("  show github; - Open the Materialize GitHub repository");
-    log("  show demos; - Open the Materialize demos");
+    block_log("<u>Available commands:</u>");
+    log("  &nbsp;show help; - Show this help message");
+    log("  &nbsp;show docs; - Open the Materialize documentation");
+    log("  &nbsp;show github; - Open the Materialize GitHub repository");
+    log("  &nbsp;show demos; - Open the Materialize demos");
 });
 
 // Docs command

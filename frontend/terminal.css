@@ -36,7 +36,7 @@ body {
 }
 
 .log p {
-    color: #00e676;
+    color: #ffffff;
     font-family: 'Source Code Pro', monospace;
     margin: 0;
 }
@@ -47,7 +47,8 @@ body {
 }
 
 #input p {
-    color: #00e676;
+    color: #ffffff;
+    font-weight: bold;
     display: inline-block;
     font-family: 'Source Code Pro', monospace;
     padding-right: .4em;
@@ -62,7 +63,7 @@ body {
 input[type="command"] {
     background-color: black;
     border: 0;
-    color: #00e676;
+    color: #ffffff;
     font-family: 'Source Code Pro', monospace;
     font-size: 16px;
     outline: 0;
