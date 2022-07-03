@@ -70,6 +70,8 @@ func (p *PgFortuneBackend) generateQueryResponse(query string) (response []byte,
 		response = []byte("https://github.com/MaterializeInc/materialize")
 	case "show sources;":
 		response = []byte("https://materialize.com/docs/sql/create-source/")
+	case "welcome;":
+		response = []byte("welcome!")
 	case "show help;":
 		response = helpString()
 	default:
@@ -118,6 +120,17 @@ func (p *PgFortuneBackend) handleStartup() error {
 	switch startupMessage.(type) {
 	case *pgproto3.StartupMessage:
 		buf := (&pgproto3.AuthenticationOk{}).Encode(nil)
+		buf = (&pgproto3.NoticeResponse{Message: "-------------------"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "▄▄▄             ╷╷╷"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "████▄          ││││    Materialize TUI"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: " ▀████▄     ╷│ ││││    ==============="}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "█▄ ▀████▄ ╷│││ ││││    Commands:"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "███▄ ▀████▄│││ ││││     - SHOW HELP;"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "▀████▄ ▀████▄│ ││││     - SHOW DOCS;"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "▄ ▀████▄ ▀████▄││││     - SHOW GITHUB;"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "██▄ ▀████▄ ▀████▄││     - SHOW DEMOS;"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "████▄ ▀████▄ ▀████▄"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "-------------------"}).Encode(buf)
 		buf = (&pgproto3.ReadyForQuery{TxStatus: 'I'}).Encode(buf)
 		_, err = p.conn.Write(buf)
 		if err != nil {
