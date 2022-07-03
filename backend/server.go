@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net"
+	"strings"
 
 	"github.com/jackc/pgproto3"
 )
@@ -61,6 +62,7 @@ func (p *PgFortuneBackend) Run() error {
 }
 
 func (p *PgFortuneBackend) generateQueryResponse(query string) (response []byte, err error) {
+	query = strings.ToLower(query)
 	switch query {
 	case "show docs;":
 		response = []byte("https://materialize.com/docs")
