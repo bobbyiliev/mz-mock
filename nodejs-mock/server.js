@@ -46,17 +46,7 @@ server.on("connection", function (socket) {
       let query = QueryParser(chunk);
 
       // Case statement to check the query and return the correct response:
-      switch (query) {
-        case "SELECT 1;":
-          values = ["1"];
-          break;
-        case "SHOW DOCS;":
-          values = ["https://materialize.com/docs"];
-          break;
-        default:
-          values = ["Hello, world!"];
-          break;
-      }
+      let values = HandleQuery(query)
 
       // Prepare the DataRow message concatenated with the RowDescription message:
       buf = Buffer.concat([buf, DataRow(values)]);
@@ -166,4 +156,18 @@ function QueryParser(query) {
   // Remove the last byte from the query:
   query = query.substring(0, query.length - 1);
   return query.trim().toUpperCase();
+}
+
+function HandleQuery(query) {
+  switch (query) {
+    case "SELECT 1;":
+      values = ["1"];
+      return values;
+    case "SHOW DOCS;":
+      values = ["https://materialize.com/docs"];
+      return values;
+    default:
+      values = ["Hello, world!"];
+      return values;
+  }
 }
