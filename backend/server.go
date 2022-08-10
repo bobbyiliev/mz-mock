@@ -68,7 +68,7 @@ func (p *PgFortuneBackend) generateQueryResponse(query string) (response []byte,
 		response = []byte("https://materialize.com/docs")
 	case "show demos;":
 		response = []byte("https://materialize.com/demos")
-	case "show repo;":
+	case "show github;":
 		response = []byte("https://github.com/MaterializeInc/materialize")
 	case "show sources;":
 		response = []byte("https://materialize.com/docs/sql/create-source/")
@@ -88,10 +88,10 @@ func (p *PgFortuneBackend) generateQueryResponse(query string) (response []byte,
 
 func helpString() []byte {
 	return []byte(`Available queries:
-- show docs;
-- show demos;
-- show sources;
-- show repo;`)
+- SHOW DOCS;
+- SHOW DEMOS;
+- SHOW SOURCES;
+- SHOW GITHUB;`)
 }
 
 func makeResponseData(message []byte) []byte {
@@ -122,17 +122,17 @@ func (p *PgFortuneBackend) handleStartup() error {
 	switch startupMessage.(type) {
 	case *pgproto3.StartupMessage:
 		buf := (&pgproto3.AuthenticationOk{}).Encode(nil)
-		buf = (&pgproto3.NoticeResponse{Message: "-------------------"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "\u001b[36m-------------------\x1B[0m"}).Encode(buf)
 		buf = (&pgproto3.NoticeResponse{Message: "▄▄▄             ╷╷╷"}).Encode(buf)
-		buf = (&pgproto3.NoticeResponse{Message: "████▄          ││││    Materialize TUI"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "████▄          ││││    \033[1m\u001b[36mMaterialize TUI\u001b[0m \033[0m"}).Encode(buf)
 		buf = (&pgproto3.NoticeResponse{Message: " ▀████▄     ╷│ ││││    ==============="}).Encode(buf)
-		buf = (&pgproto3.NoticeResponse{Message: "█▄ ▀████▄ ╷│││ ││││    Commands:"}).Encode(buf)
-		buf = (&pgproto3.NoticeResponse{Message: "███▄ ▀████▄│││ ││││     - SHOW HELP;"}).Encode(buf)
-		buf = (&pgproto3.NoticeResponse{Message: "▀████▄ ▀████▄│ ││││     - SHOW DOCS;"}).Encode(buf)
-		buf = (&pgproto3.NoticeResponse{Message: "▄ ▀████▄ ▀████▄││││     - SHOW GITHUB;"}).Encode(buf)
-		buf = (&pgproto3.NoticeResponse{Message: "██▄ ▀████▄ ▀████▄││     - SHOW DEMOS;"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "█▄ ▀████▄ ╷│││ ││││    \u001b[4mCommands\u001b[0m:"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "███▄ ▀████▄│││ ││││     -\033[1m\u001b[36m SHOW\u001b[0m HELP; \033[0m"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "▀████▄ ▀████▄│ ││││     -\033[1m\u001b[36m SHOW\u001b[0m DOCS; \033[0m"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "▄ ▀████▄ ▀████▄││││     -\033[1m\u001b[36m SHOW\u001b[0m GITHUB; \033[0m"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "██▄ ▀████▄ ▀████▄││     -\033[1m\u001b[36m SHOW\u001b[0m DEMOS; \033[0m"}).Encode(buf)
 		buf = (&pgproto3.NoticeResponse{Message: "████▄ ▀████▄ ▀████▄"}).Encode(buf)
-		buf = (&pgproto3.NoticeResponse{Message: "-------------------"}).Encode(buf)
+		buf = (&pgproto3.NoticeResponse{Message: "\u001b[36m-------------------\x1B[0m"}).Encode(buf)
 		buf = (&pgproto3.ReadyForQuery{TxStatus: 'I'}).Encode(buf)
 		_, err = p.conn.Write(buf)
 		if err != nil {
