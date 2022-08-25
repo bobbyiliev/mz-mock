@@ -21,7 +21,7 @@ func main() {
 	}
 
 	flag.StringVar(&options.listenAddress, "listen", "127.0.0.1:6875", "Listen address")
-	flag.StringVar(&options.responseCommand, "response-command", "echo Hint: ; echo 'show help;   ' \n", "Command to execute to generate query response")
+	flag.StringVar(&options.responseCommand, "response-command", "echo Hint: ; echo 'SHOW HELP;   ' \n", "Command to execute to generate query response")
 	flag.Parse()
 
 	ln, err := net.Listen("tcp", options.listenAddress)
